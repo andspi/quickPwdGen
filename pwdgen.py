@@ -3,14 +3,14 @@
 # A training program to generate passwords of a given lenght from alphanumeric and
 # special characters.
 #
-# Complete.
-#
-# Might be modified to directly return the results to the windows clipboard!
 # The menu could be extended to fit various common restrictions on acceptable passwords.
-#
 
-import random
-import string
+from random import choices
+from string import punctuation, ascii_letters, digits
+import tkinter 
+
+root = tkinter.Tk()
+root.withdraw()
 
 n = int(input("How may characters should the password consist of?\n"))
 if n == 0:
@@ -18,10 +18,15 @@ if n == 0:
 p = ""
 q = (input("May it contain punctuation and special characters? (y/n)\n").lower())
 if q == "y":
-    p = string.punctuation
+    p = punctuation
+elif q != "n":
+    print("I guess not... ")
 
-print("{1}\n{0} characters\n{1}\nYour new PWD:{1}".format(n,"\n++++++++++++++"))
+pwd = ("".join(choices(list(ascii_letters+digits+p),k = n)))
 
-print("".join(random.choices(list(string.ascii_letters+string.digits+p),k = n)))
+root.clipboard_clear()
+root.clipboard_append(pwd)
+
+print("Your new Password > {0} < has been copied to clipboard".format(pwd))
 
 input("\nPress 'Return' to exit")
