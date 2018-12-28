@@ -29,4 +29,6 @@ root.clipboard_append(pwd)
 
 print("Your new Password > {0} < has been copied to clipboard".format(pwd))
 
+root.destroy()
+
 input("\nPress 'Return' to exit")
