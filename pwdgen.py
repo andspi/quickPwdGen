@@ -1,34 +1,41 @@
 #!python3
 #
-# A training program to generate passwords of a given lenght from alphanumeric and
-# special characters.
+# A practice program to generate passwords of a given lenght from alphanumeric and special characters.
 #
 # The menu could be extended to fit various common restrictions on acceptable passwords.
+#
 
 from random import choices
 from string import punctuation, ascii_letters, digits
-import tkinter 
-
-root = tkinter.Tk()
-root.withdraw()
+import pyperclip
 
 n = int(input("How may characters should the password consist of?\n"))
-if n == 0:
+'''if isinstance(n,(int,float)):
+    n = int(n)
+else:
     n = 12
-p = ""
+    print("Not a valid value! Set to {0}\n".format(n))  
+'''
 q = (input("May it contain punctuation and special characters? (y/n)\n").lower())
 if q == "y":
     p = punctuation
-elif q != "n":
-    print("I guess not... ")
+else:
+    p = ""
 
-pwd = ("".join(choices(list(ascii_letters+digits+p),k = n)))
+c = "".join(choices(list(ascii_letters+digits+p),k = n))
 
-root.clipboard_clear()
-root.clipboard_append(pwd)
 
-print("Your new Password > {0} < has been copied to clipboard".format(pwd))
+pyperclip.determine_clipboard()
+pyperclip.copy(c)
 
-root.destroy()
+if not pyperclip.is_available():
+    print("Copy functionality unavailable!")
+    stat = ""
+else:
+    pyperclip.copy(c)
+    stat = "Has been copied to clipboard!"
+
+print("\nYour new PWD:{0}{1}{0}{2}".format("\n"+min(n,80)*"="+"\n",c,stat))
+
 
 input("\nPress 'Return' to exit")
